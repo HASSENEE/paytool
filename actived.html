@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفعيل التطبيق</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f7f9fc;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ff0000;
+    }
+
+    .success {
+      color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <h1>تفعيل التطبيق</h1>
+  <form id="activationForm">
+    <input type="text" id="activationCode" placeholder="أدخل كود التفعيل" required>
+    <button type="submit">تفعيل</button>
+    <p class="message" id="message"></p>
+  </form>
+
+  <script>
+    // الأكواد الصالحة مع تاريخ الانتهاء
+    const validCodes = {
+      "abcd1234": "2024-12-31",
+      "xyz9876": "2024-06-30"
+    };
+
+    document.getElementById("activationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const codeInput = document.getElementById("activationCode").value.trim();
+      const message = document.getElementById("message");
+
+      if (validCodes[codeInput]) {
+        const expiryDate = new Date(validCodes[codeInput]);
+        const today = new Date();
+
+        if (today <= expiryDate) {
+          message.textContent = "تم تفعيل التطبيق بنجاح!";
+          message.className = "message success";
+
+          // تخزين معلومات التفعيل في LocalStorage
+          localStorage.setItem("activationCode", codeInput);
+          localStorage.setItem("activationDate", new Date().toISOString());
+          window.location.href = "home.html"; // نقل المستخدم إلى الصفحة الرئيسية
+        } else {
+          message.textContent = "الكود منتهي الصلاحية.";
+          message.className = "message";
+        }
+      } else {
+        message.textContent = "الكود غير صحيح.";
+        message.className = "message";
+      }
+    });
+  </script>
+</body>
+</html>
