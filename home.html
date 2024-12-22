@@ -1,0 +1,169 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+// إعداد الجسم للطلبات
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// عرض الصفحة الرئيسية
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="ar">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>أداة الدفع</title>
+      <!-- إضافة رابط لـ Bootstrap -->
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f4f7fa;
+          color: #333;
+          margin: 0;
+          padding: 0;
+        }
+        .main {
+          background-color: #fff;
+          padding: 30px;
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+          margin-top: 50px;
+          border-radius: 8px;
+          width: 100%;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+        }
+        h1 {
+          color: #007bff;
+        }
+        .form-group {
+          margin-bottom: 15px;
+        }
+        .button {
+          background-color: #007bff;
+          color: white;
+          padding: 12px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+        }
+        .button:hover {
+          background-color: #0056b3;
+        }
+        .btn-block {
+          width: 100%;
+        }
+        .container {
+          padding: 20px;
+        }
+        .img-fluid {
+          width: 100%;
+          max-width: 300px;
+          height: auto;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="main">
+          <h1>مرحبًا بك في أداة الدفع</h1>
+          <p>أداة الدفع الخاصة بنا تتيح لك دفع المبالغ المالية بسهولة وسرعة عبر PayPal و Paymob. قم بتسجيل حسابك الآن وابدأ في استخدام الخدمة.</p>
+          <img src="https://via.placeholder.com/300" alt="صورة التطبيق" class="img-fluid">
+          <br><br>
+          <form action="/register" method="POST">
+            <div class="form-group">
+              <input type="text" name="name" placeholder="اسمك" required class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" placeholder="بريدك الإلكتروني" required class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="tel" name="phone" placeholder="رقم الهاتف" required class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" placeholder="كلمة المرور" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">تسجيل</button>
+          </form>
+          <br><br>
+          <!-- إضافة روابط الدفع عبر PayPal و Paymob -->
+          <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YOUR_BUTTON_ID" target="_blank">
+            <button class="btn btn-success btn-block">الدفع عبر PayPal</button>
+          </a>
+          <a href="https://paymob.com/checkout?amount=100&currency=EGP" target="_blank">
+            <button class="btn btn-info btn-block">الدفع عبر Paymob</button>
+          </a>
+          <br><br>
+          <a href="/terms">شروط الاستخدام</a> | 
+          <a href="/privacy-policy">سياسة الخصوصية</a> | 
+          <a href="/contact">اتصل بنا</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+// معالجة بيانات التسجيل
+app.post('/register', (req, res) => {
+  const { name, email, phone, password } = req.body;
+  console.log(`اسم: ${name}, بريد: ${email}, هاتف: ${phone}`);
+  res.send(`
+    <h1>شكراً لتسجيلك، ${name}!</h1>
+    <p>تم استلام بياناتك بنجاح.</p>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+  `);
+});
+
+// صفحة "شروط الاستخدام"
+app.get('/terms', (req, res) => {
+  res.send(`
+    <h1>شروط الاستخدام</h1>
+    <p>هذه هي شروط الاستخدام الخاصة بالتطبيق. عند استخدامك للتطبيق، فإنك توافق على هذه الشروط...</p>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+  `);
+});
+
+// صفحة "سياسة الخصوصية"
+app.get('/privacy-policy', (req, res) => {
+  res.send(`
+    <h1>سياسة الخصوصية</h1>
+    <p>نحن نحترم خصوصيتك ونلتزم بحمايتها. هذه هي سياسة الخصوصية التي توضح كيفية جمع واستخدام بياناتك...</p>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+  `);
+});
+
+// صفحة "اتصل بنا"
+app.get('/contact', (req, res) => {
+  res.send(`
+    <h1>اتصل بنا</h1>
+    <form action="/send-message" method="POST">
+      <input type="text" name="name" placeholder="اسمك" required class="form-control"><br><br>
+      <input type="email" name="email" placeholder="بريدك الإلكتروني" required class="form-control"><br><br>
+      <textarea name="message" placeholder="رسالتك" required class="form-control"></textarea><br><br>
+      <button type="submit" class="btn btn-primary">إرسال</button>
+    </form>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+  `);
+});
+
+// معالجة الرسائل في صفحة "اتصل بنا"
+app.post('/send-message', (req, res) => {
+  const { name, email, message } = req.body;
+  console.log(`رسالة من: ${name}, بريد: ${email}, رسالة: ${message}`);
+  res.send(`
+    <h1>تم إرسال رسالتك بنجاح!</h1>
+    <p>شكراً لتواصلك معنا. سيتم الرد عليك قريباً.</p>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+  `);
+});
+
+// تشغيل الخادم على المنفذ 4000
+app.listen(4000, () => {
+  console.log('Server is running on http://localhost:4000');
+});
