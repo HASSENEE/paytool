@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أداة الدفع</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .main {
+      background-color: #fff;
+      padding: 30px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+      border-radius: 8px;
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    h1 {
+      color: #007bff;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main">
+      <h1>مرحبًا بك في أداة الدفع</h1>
+      <p>وصف قصير عن التطبيق.</p>
+      <img src="https://via.placeholder.com/300" alt="صورة التطبيق" style="width:300px;">
+      <br><br>
+      <form action="/register" method="POST">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="اسمك" required class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="بريدك الإلكتروني" required class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="tel" name="phone" placeholder="رقم الهاتف" required class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" placeholder="كلمة المرور" required class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">تسجيل</button>
+      </form>
+      <br><br>
+      <!-- روابط الدفع عبر PayPal و Paymob -->
+      <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YOUR_BUTTON_ID" target="_blank">
+        <button class="btn btn-success btn-block">الدفع عبر PayPal</button>
+      </a>
+      <a href="https://paymob.com/checkout?amount=100&currency=EGP" target="_blank">
+        <button class="btn btn-info btn-block">الدفع عبر Paymob</button>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
